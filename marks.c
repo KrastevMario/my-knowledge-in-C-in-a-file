@@ -23,16 +23,16 @@ Program requirements:
 #define true 1
 #define false 0
 
-#define NV 20
-#define NM 10
+#define NSUBJECTSARKS 20
+#define NSUBJECTS 10
 #define FILENAME "dati.txt"
 
 // definisco la struct || declaring the struct
 typedef struct Subject {
 	char name[4]; 
-	float mark[NV]; 
+	float mark[NSUBJECTSARKS]; 
 	float average; 
-	int nMarks;
+	int NSUBJECTSarks;
 } Subject;
 
 int nSubject = 0;
@@ -44,13 +44,13 @@ void printData(Subject*);
 float averageM(Subject m);
 int caricaBuffer(char buffer[20][10]);
 int rline(FILE *fd, char *str, int n);
-int maxaverage(Subject m[NM]);
+int maxaverage(Subject m[NSUBJECTS]);
 
 // il main(le funzioni che devi eseguire appena il programma fa lo start)
 void main(){
 	FILE *save = fopen(FILENAME, "r");
 	
-	Subject subjects[NM];
+	Subject subjects[NSUBJECTS];
 	readData(subjects);
 	maxaverage(subjects);
     //modificamark(subjects);
@@ -63,7 +63,7 @@ void main(){
 }
 
 // leggi i dati dal file || read some data from file
-void readData(Subject m[NM]){
+void readData(Subject m[NSUBJECTS]){
 	char dati[20][10];
 	int righe = caricaBuffer(dati);
 	char name[4], name1[4];
@@ -88,15 +88,15 @@ void readData(Subject m[NM]){
 			nSubject++;
 		}
 	}
-	for(int i = 0; i < nSubject; i++) m[i].nMarks = 0;
+	for(int i = 0; i < nSubject; i++) m[i].NSUBJECTSarks = 0;
 
 	for(int i = 0; i < nSubject; i++){
 		for(int j = 0; j < righe; j++){
 			sscanf(dati[j], "%s %f", nameDati, &markDati);
 		//	printf("\n\n\t\t%4.2f\n", markDati);
 			if(!strcmp(m[i].name, nameDati)){
-				m[i].mark[m[i].nMarks] = markDati;
-				m[i].nMarks++;
+				m[i].mark[m[i].NSUBJECTSarks] = markDati;
+				m[i].NSUBJECTSarks++;
 			}
 		}		
 		
@@ -117,10 +117,10 @@ int readLine(FILE *f, char* str, int size){
 float averageM(Subject m){
 	float num = 0;
 	//m.average = 0.0;
-	for(int i = 0; i < m.nMarks; i++){
+	for(int i = 0; i < m.NSUBJECTSarks; i++){
 		num += m.mark[i];
 	}
-	m.average = (num/m.nMarks);
+	m.average = (num/m.NSUBJECTSarks);
 	//printf("\n\taverage calcolata\n");
 	return m.average;
 }
@@ -145,10 +145,10 @@ int caricaBuffer(char buffer[20][10]){
 }
 
 //stampa tutti i dati || print all data (info)
-void printData(Subject Subject[NM]) {
+void printData(Subject Subject[NSUBJECTS]) {
 	for(int i = 0; i < nSubject; i++){
 		printf("\n %s | ", Subject[i].name);
-		for(int j = 0; j < Subject[i].nMarks; j++)
+		for(int j = 0; j < Subject[i].NSUBJECTSarks; j++)
 			printf(" %4.2f ", Subject[i].mark[j]);
 		printf("  average:  %4.2f", averageM(Subject[i]));
 		//printf("MAXaverage : %d" , maxaverage(Subject));
@@ -172,7 +172,7 @@ int rline(FILE *fd, char *str, int n) {
 }
 
 /* 									|| 	Questa e la average massima 	|| Max average
-int maxaverage(Subject m[NM]){
+int maxaverage(Subject m[NSUBJECTS]){
 	int max = m[0].average;
 	for(int i = 0; i < nSubject; i++){
 		if (m[i].average > max){
